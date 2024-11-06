@@ -63,13 +63,6 @@ public class CardController {
         return "redirect:/"; // Перенаправление после удаления
     }
 
-    @PostMapping("/theme/{theme}/practice-buttons")
-    public String handlePracticeButtons(@PathVariable String theme, @RequestParam String action) {
-        // Handle the button actions like increase, decrease, etc.
-        // Your logic here
-        return "redirect:/theme/" + theme + "/practice"; // Redirect back to the practice page
-    }
-
     @GetMapping("/theme/{theme}/{id}/view")
     public String viewCard(@PathVariable String theme, @PathVariable int id, Model model) {
         List<Card> cards = cardService.getCards(theme); // Предполагаем, что `getCardByTheme` вернет нужную карточку
@@ -80,20 +73,7 @@ public class CardController {
         return "card_view"; // Имя HTML-шаблона
     }
 
-    @GetMapping("/theme/{theme}/practice")
-    public String practice(@PathVariable String theme, Model model) {
-        List<Card> cards = cardService.getCards(theme);
 
-        // Проверьте, есть ли карточки для данной темы
-        if (!cards.isEmpty()) {
-            model.addAttribute("card", cards.get(0)); // Передаем первую карточку в модель
-        } else {
-            model.addAttribute("message", "Нет доступных карточек для этой темы."); // Сообщение, если карточек нет
-        }
-        model.addAttribute("theme", theme); // Передаем тему в модель
-
-        return "practice"; // Возвращаем представление для практики
-    }
 
     @GetMapping("/theme/{theme}/new_card")
     public String newCardForm(@PathVariable String theme, Model model) {
