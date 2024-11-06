@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flashcard</title>
+    <link th:href="@{/styles/styles.css}" rel="stylesheet" />
+</head>
+<body>
+<div th:insert="~{nav_bar :: navbar}"></div>
+<div class="main" style="text-align: left;">
+
+    <div class="practice-main" style="position: relative; width: 350px;margin: auto;">
+        <form th:action="@{/theme/{theme}/practice-buttons(theme=${theme})}" method="post" style="display:inline;">
+            <button class="d" name="del" value="del" style="position:absolute;top:0;right:0;z-index: 10;">Delete</button>
+        </form>
+        <a th:href="@{/theme/{theme}/edit-card(theme=${theme}, card_id=${card.card_id})}">
+            <button class="p" type="submit" style="z-index: 10;">Edit</button>
+        </a>
+        <a th:href="@{/theme/{theme}/view-card(theme=${theme}, card_id=${card.card_id})}">
+            <button class="p" type="submit" style="z-index: 10;top: 30%">Open</button>
+        </a>
+        <a th:href="@{/theme/{theme}/move-card(old_theme=${theme}, card_id=${card.card_id})}">
+            <button class="p" type="submit" style="z-index: 10;top: 45%">Move</button>
+        </a>
+        <div class="flashcard" style="margin: auto;" onclick="toggleFlip(this)">
+            <div class="flashcard-flipper">
+                <div class="flashcard">
+                    <h2 th:text="${card.front}"></h2>
+                </div>
+                <div class="back">
+                    <img th:if="${card.back != null && card.back.startsWith('data:image')}" th:src="${card.back}" alt=""/>
+                    <img th:if="${card.back != null && card.back.startsWith('https:')}" th:src="${card.back}" alt=""/>
+                    <h2 th:if="${card.back != null && !card.back.startsWith('data:image') && !card.back.startsWith('https:')}" th:text="${card.back}"></h2>
+                </div>
+            </div>
+        </div>
+        <div class="buttons-box">
+            <form th:action="@{/theme/{theme}/practice-buttons(theme=${theme})}" method="post" style="display:inline;">
+                <input class="pin" id="in" type="submit" name="action" value="inc" style="display:inline;"> <!-- Change to "action" -->
+            </form>
+            <form th:action="@{/theme/{theme}/practice-buttons(theme=${theme})}" method="post" style="display:inline;">
+                <input class="pin" id="de" type="submit" name="action" value="dec" style="display:inline;"> <!-- Change to "action" -->
+            </form>
+            <form th:action="@{/theme/{theme}/practice-buttons(theme=${theme})}" method="post" style="display:inline;">
+                <input class="pin" id="ne" type="submit" name="action" value="next" style="display:inline;"> <!-- Change to "action" -->
+            </form>
+        </div>
+
+    </div>
+</div>
+</body>
+<script>
+    function toggleFlip(element) {
+        element.classList.toggle('active');
+    }
+</script>
+</html>

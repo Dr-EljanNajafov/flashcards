@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link th:href="@{/styles/styles.css}" rel="stylesheet" />
+    <title>New Card</title>
+</head>
+<body>
+<div th:insert="~{nav_bar :: navbar}"></div>
+<div class="main">
+    <h1 style="margin: 0" th:text="${theme}"></h1>
+    <div class="new_card_form">
+        <h2>New Card</h2>
+        <div>
+            <form method="post" th:action="@{/theme/{theme}/new_card(theme=${theme})}">
+                <label for="front">Front:</label><br>
+                <textarea id="front" name="front" rows="5" cols="30"></textarea><br>
+                <label for="back">Back:</label><br>
+                <textarea id="back" name="back" rows="5" cols="30"></textarea><br>
+                <div contenteditable="true" id="imageContainer" style="border: 1px solid #ccc; height: 100%; cursor: text;"></div>
+                <button type="submit">Add Card</button>
+            </form>
+
+        </div>
+    </div>
+</div>
+<script>
+    function submit_image(){
+        document.getElementById('back').value = document.querySelector('div img').src;
+    }
+    document.getElementById('imageContainer').addEventListener('paste', function(event) {
+        var items = (event.clipboardData || event.originalEvent.clipboardData).items;
+
+        for (var i = 0; i < items.length; i++) {
+            if (items[i].type.indexOf('image') !== -1) {
+                var blob = items[i].getAsFile();
+                var reader = new FileReader();
+
+                reader.onload = function(e) {
+                    var img = document.createElement('img');
+                    img.src = e.target.result;
+                    document.getElementById('imageContainer').appendChild(img); // Append the image to the container
+                };
+                reader.readAsDataURL(blob);
+            }
+        }
+    });
+</script>
+</body>
+</html>

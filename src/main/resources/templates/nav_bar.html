@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link th:href="@{/styles/styles.css}" rel="stylesheet" />
+    <title>Flashcard</title>
+</head>
+<body>
+<div th:fragment="navbar" class="navbar">
+    <a th:href="@{/}" class="navbar-item">Home</a>
+    <a th:href="@{/new_theme}" class="navbar-item">New Theme</a>
+    <a th:href="@{/shutdown}" class="navbar-item">Exit</a>
+</div>
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link th:href="@{/styles/styles.css}" rel="stylesheet"/>
+    <title>Flashcard</title>
+</head>
+<body>
+<div th:insert="~{nav_bar :: navbar}"></div>
+<div class="main">
+    <div class="product-grid">
+        <div th:each="theme : ${themes}">
+            <div class="theme">
+                <h2>
+                    <a th:href="@{/theme/{theme}(theme=${theme})}" th:text="${theme}"></a>
+                    <!-- Ссылка на список карточек -->
+                </h2>
+                <form th:action="@{/theme/{theme}/delete(theme=${theme})}" method="post" style="display:inline;">
+                    <input type="hidden" name="_method" value="delete"/>
+                    <button class="d" type="submit">Delete</button>
+                </form>
+                <form th:action="@{/theme/{theme}/practice(theme=${theme})}" method="get" style="display:inline;">
+                    <button class="p" type="submit">Practice</button>
+                </form>
+            </div>
+        </div>
+        <a th:href="@{/new_theme}">
+            <div class="theme">
+                <div class="content">
+                    <h2>New theme</h2>
+                </div>
+            </div>
+        </a>
+    </div>
+</div>
+</body>
+</html>
