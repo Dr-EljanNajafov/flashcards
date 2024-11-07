@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.IOException;
 import java.util.List;
 
 @Controller
@@ -70,7 +71,7 @@ public class CardController {
             model.addAttribute("card", cards.get(id));
         }
         model.addAttribute("theme", theme);
-        return "card_view"; // Имя HTML-шаблона
+        return "card_view";
     }
 
 
@@ -95,4 +96,21 @@ public class CardController {
         cardService.deleteCard(theme, id);
         return "redirect:/theme/" + theme;
     }
+
+    @GetMapping("/shutdown")
+    public void shutdown() {
+        try {
+            // Запуск команды для завершения процесса
+            ProcessBuilder builder = new ProcessBuilder("taskkill", "/f", "/im", "start.bat");
+            builder.redirectErrorStream(true);
+            Process process = builder.start();
+            process.waitFor(); // Ожидаем завершения команды
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace(); // Логируем ошибку, если не удается завершить процесс
+        }
+
+        // Завершаем приложение без ожидания
+        System.exit(0); // Завершение процесса без вывода "Нажмите любую клавишу"
+    }
+
 }
